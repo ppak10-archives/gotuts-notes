@@ -1,16 +1,19 @@
 package main
 
-import ("fmt")
+import ("fmt"
+"net/http")
+
+func index_handler(w http.ResponseWriter, r *http.Request) {
+  fmt.Fprintf(w, "Whoa, Go is neat!")
+}
+
+func about_handler(w http.ResponseWriter, r *http.Request) {
+  fmt.Fprintf(w, "Whoa, Go is neat 2!")
+}
 
 func main() {
-  x := 15
-  a := &x // memory address
-  fmt.Println(a)
-  fmt.Println(*a)
-  *a = 5
-  fmt.Println(x)
-  *a = *a**a
-  fmt.Println(x)
-  fmt.Println(*a)
-
+  // creates server localhost:8000
+  http.HandleFunc("/", index_handler)
+  http.HandleFunc("/about/", about_handler)
+  http.ListenAndServe(":8000", nil)
 }
