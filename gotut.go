@@ -1,18 +1,13 @@
 package main
 
 import ("fmt"
-"net/http")
-
-func index_handler(w http.ResponseWriter, r *http.Request) {
-
-  fmt.Fprintf(w, `<h1>Hey there</h1>
-    <p>Go is fast!</p>
-    <p>and simple</p>
-    `)
-
-}
+"net/http"
+"io/ioutil")
 
 func main () {
-  http.HandleFunc("/", index_handler)
-  http.ListenAndServe(":8000", nil)
+  resp, _ := http.Get("https://www.washingtonpost.com/news-sitemaps/index.xml")
+  bytes, _ := ioutil.ReadAll(resp.Body)
+  string_body := string(bytes)
+  fmt.Println(string_body)
+  resp.Body.Close()
 }
